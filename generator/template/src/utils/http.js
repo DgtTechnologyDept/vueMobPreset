@@ -1,32 +1,32 @@
 import axios from 'axios'
 import Qs from 'qs'
-import { Message } from 'element-ui'
+import { Toast } from 'vant'
 
 const myAxios = axios.create({
-  timeout: 1000 * 20,
+  timeout: 1000 * 10,
   headers: {
     'X-Requested-With': 'XMLHttpRequest'
   },
   paramsSerializer: function (params) {
-    return Qs.stringify(params, { allowDots: true })
+    return Qs.stringify(params)
   }
 })
-// 添加请求拦截器
+// 请求拦截器
 myAxios.interceptors.request.use(function (config) {
+  config.headers = {
+    'Content-Type': 'application/json'
+  }
   return config
 }, function (error) {
-  // 对请求错误做些什么
-  console.log(error)
   return Promise.reject(error)
 })
 
-// 添加响应拦截器
+// 响应拦截器
 myAxios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
   return response
 }, function (error) {
-  // 对响应错误做点什么
   if (error && error.response) {
+    // 自定义响应描述
     switch (error.response.status) {
       case 400:
         error.message = '请求错误'
@@ -62,15 +62,20 @@ myAxios.interceptors.response.use(function (response) {
         error.message = 'HTTP版本不受支持'
         break
       default:
+        error.message = '未知错误'
     }
   } else if (error.code === 'ECONNABORTED' || error.message.indexOf('timeout') !== -1) {
     error.message = '请求超时'
   } else if (error.message === 'Network Error') error.message = '网络错误'
-  Message.error(error.message)
+  Toast.fail(error.message)
   return Promise.reject(error.message)
 })
 
-export function post({ url, param }) {
+/**
+ * 暴露Post方法
+ * @param {url及请求参数} param0 
+ */
+export function post({ url, param = {} }) {
   return new Promise((resolve, reject) => {
     myAxios.post(url, param).then(res => {
       resolve(res.data)
@@ -80,7 +85,11 @@ export function post({ url, param }) {
   })
 }
 
-export function get({ url, param }) {
+/**
+ * 暴露Get方法
+ * @param {url及请求参数} param0
+ */
+export function get({ url, param = {} }) {
   return new Promise((resolve, reject) => {
     myAxios.get(url, { params: param }).then(res => {
       resolve(res.data)

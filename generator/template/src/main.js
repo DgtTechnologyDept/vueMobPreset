@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import 'normalize.css/normalize.css'
-import './plugins/element.js'
+import 'normalize.css'
+import 'amfe-flexible/index.js'
+import './plugins/vant.js'
 import router from './router'
 import store from './store'
-import './icon' // icon
+import './icon' // svg-icon
 
 Vue.config.productionTip = false
 
