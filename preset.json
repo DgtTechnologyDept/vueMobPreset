@@ -11,6 +11,6 @@
     },
     "router": true,
     "routerHistoryMode": false,
-    "vuex": true,
+    "vuex": false,
     "cssPreprocessor": "node-sass"
 }

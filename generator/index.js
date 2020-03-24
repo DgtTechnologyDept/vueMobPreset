@@ -20,7 +20,9 @@ module.exports = (api, options) => {
       moment: '^2.24.0',
       'normalize.css': '^8.0.1',
       'amfe-flexible': '^2.2.1',
-      'postcss-pxtorem': '^4.0.1'
+      'postcss-pxtorem': '^4.0.1',
+      vant: '^2.5.3',
+      vuex: '^3.1.2'
     },
     devDependencies: {
       'css-loader': '^3.2.0',

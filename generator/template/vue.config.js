@@ -23,7 +23,7 @@ module.exports = {
     devServer: {
         proxy: {
             [process.env.VUE_APP_HOST]: {
-                target: '',
+                target: 'http://my.url',
                 changeOrigin: true,
                 pathRewrite: {
                     ['^' + process.env.VUE_APP_HOST]: ''
