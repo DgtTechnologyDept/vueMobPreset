@@ -7,19 +7,33 @@ function resolve(dir) {
 module.exports = {
     lintOnSave: false,
     productionSourceMap: false,
-    // devServer: {
-    //     proxy: {
-    //         [process.env.VUE_APP_HOST]: {
-    //             target: '',
-    //             changeOrigin: true,
-    //             pathRewrite: {
-    //                 ['^' + process.env.VUE_APP_HOST]: ''
-    //             }
-    //         }
-    //     }
-    // },
+    css: {
+        loaderOptions: {
+            postcss: {
+                plugins: [
+                    require('postcss-pxtorem')({    //  px to rem
+                        rootValue: 37.5, // 换算的基数
+                        selectorBlackList: [], // 忽略转换正则匹配项
+                        propList: ['*'],
+                    })
+                ]
+            }
+        }
+    },
+    devServer: {
+        proxy: {
+            [process.env.VUE_APP_HOST]: {
+                target: '',
+                changeOrigin: true,
+                pathRewrite: {
+                    ['^' + process.env.VUE_APP_HOST]: ''
+                }
+            }
+        }
+    },
     configureWebpack: {
         resolve: {
+            // 自定义别名
             alias: {
                 '@': resolve('src')
             }

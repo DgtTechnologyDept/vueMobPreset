@@ -4,6 +4,14 @@ module.exports = (api, options) => {
   const env = require('./tools/env')
   const vuex = require('./tools/vuex')
   const svgIcon = require('./tools/svgIcon')
+  const views = require('./tools/views')
+
+  // 增加发布测试环境应用的scripts
+  api.extendPackage({
+    scripts: {
+      'test-build': 'vue-cli-service build --mode testpdct'
+    }
+  })
 
   // 安装一些基础公共库
   api.extendPackage({
@@ -24,23 +32,30 @@ module.exports = (api, options) => {
     }
   })
 
+  //  渲染vue.config.js
+  api.render({
+    './vue.config.js': './template/vue.config.js'
+  })
+
+  //  渲染public/index.html
+  api.render({
+    './public/index.html': './template/public/index.html'
+  })
+
   // 渲染公共文件
   axios.renderFiles(api)
   main.renderFiles(api)
   env.renderFiles(api)
   vuex.renderFiles(api)
   svgIcon.renderFiles(api)
+  views.renderFiles(api)
 
   // 渲染VantUI插件
   api.render({
     './src/plugins/vant.js': './template/src/plugins/vant.js'
   })
-  // 配置按需引入ElementUI组件
+  // 配置按需引入VantUI组件
   api.render({
     './babel.config.js': './template/babel.config.js'
-  })
-  //  渲染vue.config.js
-  api.render({
-    './vue.config.js': './template/vue.config.js'
   })
 }
